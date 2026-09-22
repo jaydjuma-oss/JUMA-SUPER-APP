@@ -1,19 +1,15 @@
 <!DOCTYPE html>
-<html>
-<head><meta name="viewport" content="width=device-width,initial-scale=1"><title>JUMA.D SUPER</title></head>
-<body style="margin:0;background:#111;color:#fff;font-family:sans-serif">
-<div style="background:#25D366;padding:12px;font-weight:bold">JUMA.D 🔥 SUPER APP - Online</div>
-<div style="display:flex;gap:15px;padding:15px;background:#222;overflow-x:auto">
-<div style="text-align:center"><div style="width:60px;height:60px;border-radius:50%;border:3px solid #fff;background:#333;display:flex;align-items:center;justify-content:center;font-size:28px">+</div><div style="font-size:11px;margin-top:5px">Add</div></div>
-<div style="text-align:center"><div style="width:60px;height:60px;border-radius:50%;border:3px solid #25D366;background:#333;display:flex;align-items:center;justify-content:center;font-size:28px">🔥</div><div style="font-size:11px;margin-top:5px">Shaggy</div></div>
-<div style="text-align:center"><div style="width:60px;height:60px;border-radius:50%;border:3px solid #25D366;background:#333;display:flex;align-items:center;justify-content:center;font-size:28px">👑</div><div style="font-size:11px;margin-top:5px">JUMA.D</div></div>
-<div style="text-align:center"><div style="width:60px;height:60px;border-radius:50%;border:3px solid #25D366;background:#333;display:flex;align-items:center;justify-content:center;font-size:28px">😎</div><div style="font-size:11px;margin-top:5px">Maboy</div></div>
+<html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>JUMA.D</title>
+<style>body{margin:0;background:#111;color:#fff;font-family:sans-serif;text-align:center}#top{background:#25D366;padding:12px;font-weight:bold}#bar{display:flex;gap:15px;padding:15px;background:#222;overflow-x:auto}.s{cursor:pointer}.c{width:60px;height:60px;border-radius:50%;border:3px solid #25D366;background:#333;display:flex;align-items:center;justify-content:center;font-size:28px}#view{position:fixed;inset:0;background:#000;display:none;flex-direction:column;z-index:99}.v-top{padding:15px;background:#222;display:flex;justify-content:space-between}.v-mid{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column}</style></head>
+<body>
+<div id="top">JUMA.D 🔥 SUPER APP</div>
+<div id="bar">
+<div class="s" onclick="openS('Add','➕','Ongeza Status')"><div class="c" style="border-color:#fff">+</div><div style="font-size:11px">Add</div></div>
+<div class="s" onclick="openS('Shaggy','🔥','Shaggy Moto!')"><div class="c">🔥</div><div style="font-size:11px">Shaggy</div></div>
+<div class="s" onclick="openS('JUMA.D','👑','Mfalme!')"><div class="c">👑</div><div style="font-size:11px">JUMA.D</div></div>
+<div class="s" onclick="openS('Maboy','😎','Freshi!')"><div class="c">😎</div><div style="font-size:11px">Maboy</div></div>
 </div>
-<div style="padding:20px;text-align:center">
-<h2 style="color:#25D366">Karibu Mkuu! 🔥</h2>
-<p>Status zipo juu hapo! Kama WhatsApp!</p>
-<p style="background:#333;padding:15px;border-radius:10px">Hii ndio JUMA.D SUPER APP yako!</p>
-<button onclick="alert('Status itaongezeka hapa mkuu! 🔥')" style="background:#25D366;border:none;padding:12px 25px;border-radius:25px;font-weight:bold;margin-top:15px">Bonyeza Hapa</button>
-</div>
-</body>
-</html>
+<div style="padding:20px"><h2 style="color:#25D366">Karibu Mkuu! 🔥</h2><p>Bonyeza Status Juu!</p></div>
+<div id="view" onclick="this.style.display='none'"><div class="v-top"><span id="vName">JUMA</span><span>✕</span></div><div class="v-mid"><div id="vEmoji" style="font-size:100px">👑</div><h2 id="vText"></h2><p>Bonyeza kufunga</p></div></div>
+<script>function openS(n,e,t){document.getElementById('vName').innerText=n;document.getElementById('vEmoji').innerText=e;document.getElementById('vText').innerText=t;document.getElementById('view').style.display='flex';}</script>
+</body></html>
