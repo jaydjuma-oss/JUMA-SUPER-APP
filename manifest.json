@@ -1,0 +1,12 @@
+{
+  "name": "JUMA.D - Super App",
+  "short_name": "JUMA.D",
+  "description": "Chats, Status, Groups, Record + Market",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {"src": "https://cdn-icons-png.flaticon.com/512/1055/1055687.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}
