@@ -1,7 +1,11 @@
 {
-  "name": "JUMA.D PRO MAX FINAL",
-  "short_name": "JUMA.D",
-  "start_url": "./",
+  "name": "JUMA SUPER APP",
+  "short_name": "JUMA",
+  "icons": [
+    { "src": "IMG-20260929-WA4005.jpg", "sizes": "192x192", "type": "image/jpeg" },
+    { "src": "IMG-20260929-WA7303.jpg", "sizes": "512x512", "type": "image/jpeg" }
+  ],
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#FFD700"
