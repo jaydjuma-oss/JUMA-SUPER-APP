@@ -1,1 +1,51 @@
-<!DOCTYPE html><html lang="sw"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#075e54"><title>JUMA SUPER APP</title><link rel="manifest" href="manifest.json"><style>*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}body{background:#111b21;color:#fff}#top{background:#202c33;padding:12px 16px;display:flex;justify-content:space-between}#top b{color:#25d366}#topTabs{display:flex;background:#202c33}.tTab{flex:1;text-align:center;padding:14px 0;opacity:.6;border-bottom:3px solid transparent}.tTab.active{opacity:1;border-color:#25d366;color:#25d366;font-weight:bold}.page{display:none;min-height:80vh;padding-bottom:80px}.page.active{display:block}.card{background:#202c33;margin:10px;border-radius:12px;padding:14px}.btn{background:#25d366;color:#000;border:none;padding:12px;border-radius:25px;font-weight:bold;width:100%;margin-top:10px}.btn2{background:#2a3942;color:#fff}input{width:100%;padding:12px;border-radius:10px;border:none;background:#2a3942;color:#fff;margin:6px 0}.chatbox{height:60vh;overflow-y:auto;padding:10px}.msg{max-width:75%;padding:8px 12px;border-radius:12px;margin:6px 0}.me{background:#005c4b;margin-left:auto}.other{background:#202c33}#installBtn{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#25d366;color:#000;padding:12px 22px;border-radius:30px;font-weight:bold;display:none;z-index:99}.video-grid{display:grid;gap:10px;padding:10px}.video-card{background:#202c33;border-radius:12px;overflow:hidden}.video-card iframe{width:100%;height:200px;border:none}</style></head><body><div id="top"><b>👑 JUMAJAY SUPER</b><div style="display:flex;gap:12px"><span onclick="tab(1)">💬</span><span onclick="tab(2)">✨</span><span onclick="tab(3)">🎥</span></div></div><div id="topTabs"><div class="tTab active" onclick="tab(1)" id="t1">CHATS</div><div class="tTab" onclick="tab(2)" id="t2">STATUS</div><div class="tTab" onclick="tab(3)" id="t3">VIDEOS</div><div class="tTab" onclick="tab(4)" id="t4">MINE</div></div><div id="p1" class="page active"><div class="card"><h3>Karibu Juma! 👑</h3><input id="friendName" placeholder="Jina la rafiki..."><button class="btn" onclick="addFriend()">+ Ongeza Rafiki</button></div><div id="chatList"></div><div id="chatBoxArea" style="display:none"><div style="background:#202c33;padding:10px;display:flex;justify-content:space-between"><b id="curName"></b><span onclick="closeChat()">❌</span></div><div id="chatBox" class="chatbox"></div><div style="display:flex;gap:6px;padding:10px;background:#202c33"><input id="msgInput" placeholder="Andika..."><button onclick="sendMsg()" style="background:#25d366;border:none;border-radius:50%;width:46px;height:46px">➤</button></div></div></div><div id="p2" class="page"><div class="card"><h3>✨ Status</h3><input id="statusTxt" placeholder="Nini kinaendelea?"><button class="btn" onclick="addStatus()">Post Status</button></div><div id="statusList"></div></div><div id="p3" class="page"><div class="card"><h3>🎥 JUMA Videos</h3><input id="videoLink" placeholder="YouTube link"><input id="videoTitle" placeholder="Title"><button class="btn" onclick="addVideo()">+ Ongeza Video</button></div><div id="videoList" class="video-grid"></div></div><div id="p4" class="page"><div class="card"><h3>👑 JUMA.D</h3><button class="btn btn2" onclick="alert('JUMA SUPER APP V2')">About</button><br><br><button class="btn" onclick="localStorage.clear();location.reload()">Futa Data</button></div></div><button id="installBtn" onclick="installApp()">⬇️ DOWNLOAD APP</button><script>let friends=JSON.parse(localStorage.getItem('j_f')||'["Mama","Kaka","Best"]');let msgs=JSON.parse(localStorage.getItem('j_m')||'{}');let status=JSON.parse(localStorage.getItem('j_s')||'[]');let videos=JSON.parse(localStorage.getItem('j_v')||'[]');let current=null;let deferredPrompt=null;function tab(n){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tTab').forEach(t=>t.classList.remove('active'));document.getElementById('p'+n).classList.add('active');document.getElementById('t'+n).classList.add('active');if(n==1)renderChats();if(n==2)renderStatus();if(n==3)renderVideos();}function renderChats(){let l=document.getElementById('chatList');l.innerHTML='';friends.forEach(f=>{let last=(msgs[f]&&msgs[f].slice(-1)[0])?msgs[f].slice(-1)[0].t:'Gusa kuanza chat';l.innerHTML+=`<div class="card" style="display:flex;justify-content:space-between" onclick="openChat('${f}')"><div><b>${f}</b><div style="opacity:.6;font-size:12px">${last}</div></div><span>💬</span></div>`});}function addFriend(){let n=document.getElementById('friendName').value.trim();if(!n)return;friends.push(n);localStorage.setItem('j_f',JSON.stringify(friends));document.getElementById('friendName').value='';renderChats();}function openChat(name){current=name;document.getElementById('curName').innerText=name;document.getElementById('chatList').style.display='none';document.getElementById('chatBoxArea').style.display='block';renderMsgs();}function closeChat(){document.getElementById('chatList').style.display='block';document.getElementById('chatBoxArea').style.display='none';current=null;}function renderMsgs(){let b=document.getElementById('chatBox');b.innerHTML='';(msgs[current]||[]).forEach(m=>{b.innerHTML+=`<div class="msg ${m.me?'me':'other'}">${m.t}</div>`});b.scrollTop=b.scrollHeight;}function sendMsg(){let t=document.getElementById('msgInput').value.trim();if(!t||!current)return;if(!msgs[current])msgs[current]=[];msgs[current].push({t:t,me:true});localStorage.setItem('j_m',JSON.stringify(msgs));document.getElementById('msgInput').value='';renderMsgs();setTimeout(()=>{msgs[current].push({t:'Sawa mkuu 👑',me:false});localStorage.setItem('j_m',JSON.stringify(msgs));renderMsgs();},800);}function renderStatus(){let l=document.getElementById('statusList');l.innerHTML='';status.slice().reverse().forEach(s=>{l.innerHTML+=`<div class="card"><b>${s.n}</b> <span style="opacity:.5;font-size:11px">${s.time}</span><div style="margin-top:8px">${s.t}</div></div>`});}function addStatus(){let t=document.getElementById('statusTxt').value.trim();if(!t)return;status.push({n:'JUMA',t:t,time:new Date().toLocaleTimeString()});localStorage.setItem('j_s',JSON.stringify(status));document.getElementById('statusTxt').value='';renderStatus();}function renderVideos(){let l=document.getElementById('videoList');l.innerHTML='';if(videos.length==0){l.innerHTML='<div class="card" style="text-align:center;opacity:.6">Hakuna video. Ongeza YouTube link!</div>';return;}videos.slice().reverse().forEach(v=>{let id=getYtId
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👑 JUMAJAY SUPER V3</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#075e54">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,Roboto}
+body{background:#0b141a;color:#e9edef;height:100vh;overflow:hidden}
+header{background:#202c33;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #2a3942}
+.logo{font-weight:900;color:#25d366;font-size:18px;display:flex;gap:8px;align-items:center}
+.tabs{display:flex;background:#202c33}
+.tab{flex:1;padding:14px 0;text-align:center;font-weight:700;font-size:12px;color:#8696a0;border-bottom:3px solid transparent}
+.tab.active{color:#25d366;border-color:#25d366}
+.page{display:none;height:calc(100vh - 102px);overflow-y:auto}
+.page.active{display:block}
+.card{background:#202c33;margin:10px;border-radius:12px;padding:14px}
+.input{background:#2a3942;border:none;border-radius:8px;padding:12px;width:100%;color:#fff;outline:none;margin:6px 0}
+.btn{background:#25d366;color:#000;border:none;border-radius:24px;padding:12px;font-weight:800;width:100%}
+.btn2{background:transparent;border:1.5px solid #25d366;color:#25d366;border-radius:24px;padding:12px;width:100%;margin-top:8px;font-weight:700}
+.friend{padding:12px 16px;display:flex;gap:12px;align-items:center;border-bottom:1px solid #1f2c34}
+.avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#075e54,#25d366);display:flex;align-items:center;justify-content:center;font-weight:800}
+.call{background:#25d366;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#000;margin-left:auto}
+.ring{width:54px;height:54px;border-radius:50%;padding:3px;background:conic-gradient(#25d366,gold,#25d366)}
+.ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #0b141a;background:#202c33}
+.viewer{position:fixed;inset:0;background:#000;z-index:99;display:none;align-items:center;justify-content:center}
+.vcard{background:#000;height:calc(100vh - 102px);position:relative;display:flex;align-items:center;justify-content:center;border-bottom:2px solid #111}
+.vcard iframe,.vcard video{width:100%;height:100%;object-fit:contain}
+.chat{position:fixed;inset:0;background:#0b141a;z-index:60;display:none;flex-direction:column}
+</style>
+</head>
+<body>
+<header><div class="logo"><i class="fa-solid fa-crown" style="color:gold"></i> JUMAJAY SUPER</div><div style="display:flex;gap:14px;color:#aebac1"><i class="fa-solid fa-magnifying-glass"></i><i class="fa-solid fa-ellipsis-vertical"></i></div></header>
+<div class="tabs">
+<div class="tab active" onclick="openT('chats',this)">CHATS</div>
+<div class="tab" onclick="openT('status',this)">STATUS</div>
+<div class="tab" onclick="openT('videos',this)">VIDEOS</div>
+<div class="tab" onclick="openT('mine',this)">MINE</div>
+</div>
+
+<div id="chats" class="page active">
+<div class="card"><b>Karibu Juma! 👑</b><input id="fn" class="input" placeholder="Jina la rafiki..."><button class="btn" onclick="addF()">+ Ongeza Rafiki</button></div>
+<div id="fList"></div>
+</div>
+
+<div id="status" class="page">
+<div class="card"><h4><i class="fa-solid fa-circle-plus" style="color:#25d366"></i> Status Halisi</h4>
+<input type="file" id="sf" accept="image/*,video/*" hidden onchange="upS(this)">
