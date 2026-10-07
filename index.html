@@ -1,26 +1,32 @@
 <!DOCTYPE html>
-<html lang="sw"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>JUMAJAY SUPER V3</title>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JUMAJAY SUPER V5</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{background:#0b141a;color:#e9edef;font-family:Arial}
-header{background:#202c33;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0b141a;color:#e9edef;font-family:Arial}
+header{background:#202c33;padding:14px 16px;display:flex;justify-content:space-between;position:sticky;top:0}
 .logo{color:#25d366;font-weight:900;font-size:18px}
-.tabs{display:flex;background:#202c33;position:sticky;top:56px;z-index:99}
+.tabs{display:flex;background:#202c33;position:sticky;top:56px}
 .tab{flex:1;padding:14px;text-align:center;font-size:13px;font-weight:700;color:#8696a0;cursor:pointer;border-bottom:3px solid transparent}
 .tab.active{color:#25d366;border-bottom-color:#25d366}
 .page{padding:8px;min-height:85vh}
 .card{background:#202c33;border-radius:12px;padding:14px;margin-bottom:10px}
 .input{background:#2a3942;border:none;padding:13px;border-radius:10px;color:white;width:100%;outline:none;margin-bottom:8px}
 .btn{background:#25d366;color:#0b141a;border:none;padding:12px;border-radius:25px;font-weight:900;width:100%;cursor:pointer}
-.friend{display:flex;gap:12px;padding:12px;background:#2a3942;border-radius:12px;margin-top:8px;align-items:center;cursor:pointer}
+.friend{display:flex;gap:12px;padding:12px;background:#2a3942;border-radius:12px;margin-top:8px;align-items:center}
 .ava{width:48px;height:48px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;color:black;font-weight:900}
+.chatBox{background:#0b141a;padding:10px;border-radius:12px;height:300px;overflow-y:auto}
 .bubble{max-width:78%;padding:10px 12px;border-radius:12px;margin:6px 0;font-size:15px}
 .me{background:#005c4b;margin-left:auto}
 .them{background:#202c33;margin-right:auto}
-.chatBox{background:#0b141a;padding:10px;border-radius:12px;height:320px;overflow-y:auto}
 .small{color:#8696a0;font-size:12px}
-</style></head><body>
-<header><div class="logo">👑 JUMAJAY SUPER V3</div><div>🔍</div></header>
+</style>
+</head>
+<body>
+<header><div class="logo">👑 JUMAJAY SUPER V5</div><div>🔍</div></header>
 <div class="tabs">
 <div class="tab active" onclick="openTab('chats',this)">CHATS</div>
 <div class="tab" onclick="openTab('status',this)">STATUS</div>
@@ -37,8 +43,14 @@ header{background:#202c33;padding:14px 16px;display:flex;justify-content:space-b
 <div class="card" style="margin-top:12px">
 <div style="display:flex;justify-content:space-between"><b id="chatWith">Chat</b><span onclick="closeChat()">✖️</span></div>
 <div id="chatBox" class="chatBox"></div>
-<div style="display:flex;gap:6px;margin-top:8px"><input id="chatInput" class="input" style="margin:0;flex:1" placeholder="Andika..." onkeypress="if(event.key==='Enter')sendMsg()"><button class="btn" style="width:55px;margin:0" onclick="sendMsg()">➤</button></div>
-</div></div></div></div>
+<div style="display:flex;gap:6px;margin-top:8px">
+<input id="chatInput" class="input" style="margin:0;flex:1" placeholder="Andika...">
+<button class="btn" style="width:55px;margin:0" onclick="sendMsg()">➤</button>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div id="status" class="page" style="display:none">
 <div class="card">
 <b>Status Halisi</b>
@@ -49,27 +61,131 @@ header{background:#202c33;padding:14px 16px;display:flex;justify-content:space-b
 </div>
 <div id="statusList"></div>
 </div>
-<div id="videos" class="page" style="display:none"><div class="card"><b>VIDEOS</b><input id="ytLink" class="input" style="margin-top:10px" placeholder="Link ya YouTube"><button class="btn" onclick="addVideo()">+ Weka Video</button></div><div id="videoList"></div></div>
-<div id="mine" class="page" style="display:none"><div class="card" style="text-align:center;padding:24px"><div style="width:90px;height:90px;background:#25d366;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:40px">J</div><h2 style="margin-top:10px">Juma D</h2><p class="small">CONGO KINSHASA 🇨🇩 • Trust Allah first 🤲</p></div></div>
+<div id="videos" class="page" style="display:none">
+<div class="card"><b>Juma TikTok - REAL</b><input id="ytLink" class="input" style="margin-top:10px" placeholder="Link ya YouTube"><button class="btn" onclick="addVideo()">+ Link</button></div>
+<div id="videoList"></div>
+</div>
+<div id="mine" class="page" style="display:none">
+<div class="card" style="text-align:center;padding:24px"><div style="width:90px;height:90px;background:#25d366;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:40px">J</div><h2>Juma D</h2><p class="small">CONGO KINSHASA 🇨🇩 Trust Allah 🤲</p></div>
+</div>
 <script>
-let friends=JSON.parse(localStorage.getItem('jj_f')||'[]');
-let statuses=JSON.parse(localStorage.getItem('jj_s')||'[]');
-let videos=JSON.parse(localStorage.getItem('jj_v')||'[]');
-let chats=JSON.parse(localStorage.getItem('jj_c')||'{}');
-let current=null;
-function save(){localStorage.setItem('jj_f',JSON.stringify(friends));localStorage.setItem('jj_s',JSON.stringify(statuses));localStorage.setItem('jj_v',JSON.stringify(videos));localStorage.setItem('jj_c',JSON.stringify(chats));}
-function openTab(id,el){document.querySelectorAll('.page').forEach(p=>p.style.display='none');document.getElementById(id).style.display='block';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');if(id==='chats')renderFriends();if(id==='status')renderStatus();if(id==='videos')renderVideos();}
-function renderFriends(){let list=document.getElementById('friendsList');if(friends.length===0){list.innerHTML='<p class="small" style="margin-top:10px">Hakuna rafiki bado.</p>';return;}list.innerHTML=friends.map(n=>`<div class="friend" onclick="openChat('${n}')"><div class="ava">${n[0].toUpperCase()}</div><div style="flex:1"><b>${n}</b><br><span class="small">${(chats[n]&&chats[n].slice(-1)[0])?chats[n].slice(-1)[0].text.substring(0,25):'Gusa kuchat'}</span></div></div>`).join('');}
-function ongezaRafiki(){let i=document.getElementById('friendName');let n=i.value.trim();if(!n)return alert('Andika jina!');friends.unshift(n);chats[n]=[];save();i.value='';renderFriends();alert('✅ '+n+' ameongezwa');}
-function openChat(n){current=n;document.getElementById('chatArea').style.display='block';document.getElementById('chatWith').innerText=n;renderChat();}
-function closeChat(){document.getElementById('chatArea').style.display='none';current=null;}
-function renderChat(){if(!current)return;let box=document.getElementById('chatBox');let msgs=chats[current]||[];box.innerHTML=msgs.map(m=>`<div class="bubble ${m.me?'me':'them'}">${m.text}<span style="font-size:10px;color:#8696a0;float:right;margin-left:6px">${m.time}</span></div>`).join('');box.scrollTop=box.scrollHeight;}
-function sendMsg(){let i=document.getElementById('chatInput');if(!i.value.trim()||!current)return;let t=new Date().toLocaleTimeString().slice(0,5);chats[current].push({me:false,text:i.value.trim(),time:t});let txt=i.value.trim();i.value='';save();renderChat();setTimeout(()=>{let r=["Poa mkuu 👑","Alhamdulillah","Sawa mkuu 🔥","Barikiwa 🤲"];let a=txt.toLowerCase().includes('salam')?"Walaikum salam 🤲":r[Math.floor(Math.random()*r.length)];chats[current].push({me:true,text:a,time:new Date().toLocaleTimeString().slice(0,5)});save();renderChat();},700);}
-function postStatus(){let i=document.getElementById('statusInput');if(!i.value.trim())return;statuses.unshift({text:i.value.trim(),time:new Date().toLocaleString()});save();i.value='';renderStatus();}
-function renderStatus(){document.getElementById('statusList').innerHTML=statuses.map(s=>`<div class="card"><b>Juma</b> <span class="small">${s.time||''}</span><div style="margin-top:8px">${s.text}</div></div>`).join('');}
-function handleFile(inp){if(inp.files[0]){let url=URL.createObjectURL(inp.files[0]);statuses.unshift({text:'<img src="'+url+'" style="width:100%;border-radius:10px">',time:new Date().toLocaleString()});save();renderStatus();}}
-function addVideo(){let i=document.getElementById('ytLink');let link=i.value.trim();if(!link)return;let id=link.includes('v=')?link.split('v=')[1].split('&')[0]:link.split('/').pop();videos.unshift({id:id});save();i.value='';renderVideos();}
-function renderVideos(){document.getElementById('videoList').innerHTML=videos.map(v=>`<div class="card"><div style="position:relative;padding-bottom:56%;background:black;border-radius:10px;overflow:hidden"><iframe style="position:absolute;top:0;left:0;width:100%;height:100%" src="https://www.youtube.com/embed/${v.id}" frameborder="0" allowfullscreen></iframe></div></div>`).join('');}
-renderFriends();renderStatus();renderVideos();
+let friends = JSON.parse(localStorage.getItem('jj_f')||'[]');
+let statuses = JSON.parse(localStorage.getItem('jj_s')||'[]');
+let videos = JSON.parse(localStorage.getItem('jj_v')||'[]');
+let chats = JSON.parse(localStorage.getItem('jj_c')||'{}');
+let current = null;
+function save(){
+ localStorage.setItem('jj_f', JSON.stringify(friends));
+ localStorage.setItem('jj_s', JSON.stringify(statuses));
+ localStorage.setItem('jj_v', JSON.stringify(videos));
+ localStorage.setItem('jj_c', JSON.stringify(chats));
+}
+function openTab(id,el){
+ document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+ document.getElementById(id).style.display='block';
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+ el.classList.add('active');
+}
+function renderFriends(){
+ let list = document.getElementById('friendsList');
+ if(friends.length===0){
+  list.innerHTML='<p class="small" style="margin-top:10px">Hakuna rafiki bado.</p>';
+  return;
+ }
+ list.innerHTML = friends.map(n=>`
+  <div class="friend" onclick="openChat('${n}')">
+   <div class="ava">${n[0].toUpperCase()}</div>
+   <div style="flex:1"><b>${n}</b><br><span class="small">Gusa kuchat</span></div>
+  </div>
+ `).join('');
+}
+function ongezaRafiki(){
+ let input = document.getElementById('friendName');
+ let jina = input.value.trim();
+ if(!jina){
+   jina = prompt("Andika jina la rafiki:");
+ }
+ if(!jina) return;
+ jina = jina.trim();
+ if(friends.includes(jina)){
+   alert(jina + " yupo tayari!");
+   return;
+ }
+ friends.unshift(jina);
+ chats[jina] = [];
+ save();
+ if(input) input.value = "";
+ renderFriends();
+ alert("✅ " + jina + " ameongezwa!");
+}
+function openChat(n){
+ current = n;
+ document.getElementById('chatArea').style.display='block';
+ document.getElementById('chatWith').innerText = n;
+ renderChat();
+}
+function closeChat(){
+ document.getElementById('chatArea').style.display='none';
+ current = null;
+}
+function renderChat(){
+ if(!current) return;
+ let box = document.getElementById('chatBox');
+ let msgs = chats[current]||[];
+ box.innerHTML = msgs.map(m=>`<div class="bubble ${m.me?'me':'them'}">${m.text}</div>`).join('');
+ box.scrollTop = box.scrollHeight;
+}
+function sendMsg(){
+ let i = document.getElementById('chatInput');
+ if(!i.value.trim() ||!current) return;
+ chats[current].push({me:false,text:i.value.trim()});
+ let txt = i.value.trim();
+ i.value='';
+ save();
+ renderChat();
+ setTimeout(()=>{
+  let r=["Poa mkuu 👑","Alhamdulillah","Sawa mkuu 🔥","Barikiwa 🤲"];
+  let a = txt.toLowerCase().includes('salam')? "Walaikum salam 🤲" : r[Math.floor(Math.random()*r.length)];
+  chats[current].push({me:true,text:a});
+  save();
+  renderChat();
+ },600);
+}
+function postStatus(){
+ let i=document.getElementById('statusInput');
+ if(!i.value.trim()) return alert('Andika status');
+ statuses.unshift({text:i.value.trim()});
+ save();
+ i.value='';
+ renderStatus();
+}
+function renderStatus(){
+ document.getElementById('statusList').innerHTML = statuses.map(s=>`<div class="card">${s.text}</div>`).join('');
+}
+function handleFile(inp){
+ if(inp.files[0]){
+  let url=URL.createObjectURL(inp.files[0]);
+  statuses.unshift({text:'<img src="'+url+'" style="width:100%;border-radius:10px">'});
+  save();
+  renderStatus();
+ }
+}
+function addVideo(){
+ let i=document.getElementById('ytLink');
+ let link=i.value.trim();
+ if(!link) return;
+ let id=link.includes('v=')?link.split('v=')[1].split('&')[0]:link.split('/').pop();
+ videos.unshift({id:id});
+ save();
+ i.value='';
+ renderVideos();
+}
+function renderVideos(){
+ document.getElementById('videoList').innerHTML = videos.map(v=>`<div class="card"><iframe style="width:100%;height:200px;border-radius:10px" src="https://www.youtube.com/embed/${v.id}" frameborder="0" allowfullscreen></iframe></div>`).join('');
+}
+renderFriends();
+renderStatus();
+renderVideos();
 </script>
-</body></html>
+</body>
+</html>
