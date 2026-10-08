@@ -1,3 +1,130 @@
-   function sendMsg(){
-   ...
-   "Okay, boss"
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JUMAJAY SUPER V7</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0b141a;color:#e9edef;font-family:sans-serif}
+header{background:#202c33;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.logo{color:#25d366;font-weight:900;font-size:18px}
+.tabs{display:flex;background:#202c33;position:sticky;top:0;z-index:10}
+.tab{flex:1;padding:14px;text-align:center;color:#8696a0;cursor:pointer}
+.tab.active{color:#25d366;border-bottom:3px solid #25d366}
+.page{padding:8px;min-height:85vh;display:none}
+.page.active{display:block}
+.card{background:#202c33;border-radius:12px;padding:12px;margin-bottom:8px}
+.input{background:#2a3942;border:none;padding:12px;border-radius:8px;color:white;width:100%;margin-bottom:8px}
+.btn{background:#25d366;color:#0b141a;border:none;padding:12px;border-radius:8px;font-weight:800;width:100%;cursor:pointer}
+.friend{display:flex;gap:12px;padding:12px;border-bottom:1px solid #2a3942;cursor:pointer}
+.friend:active{background:#2a3942}
+.ava{width:48px;height:48px;border-radius:50%;background:#25d366;color:#0b141a;display:flex;align-items:center;justify-content:center;font-weight:900}
+.chatBox{background:#0b141a;padding:10px;border-radius:8px;min-height:300px;max-height:60vh;overflow-y:auto}
+.bubble{max-width:78%;padding:10px 12px;border-radius:12px;margin:6px 0;word-wrap:break-word}
+.me{background:#005c4b;margin-left:auto;text-align:right}
+.them{background:#202c33;margin-right:auto}
+.small{color:#8696a0;font-size:12px}
+</style>
+</head>
+<body>
+<header><div class="logo">👑 JUMAJAY SUPER V7</div><div style="color:#25d366">● online</div></header>
+<div class="tabs">
+<div class="tab active" onclick="openTab('chats',this)">Chats</div>
+<div class="tab" onclick="openTab('status',this)">Status</div>
+<div class="tab" onclick="openTab('videos',this)">Videos</div>
+<div class="tab" onclick="openTab('mine',this)">Mine</div>
+</div>
+
+<div id="chats" class="page active">
+<div class="card">
+<input id="newFriend" class="input" placeholder="Andika jina la rafiki...">
+<button class="btn" onclick="addFriend()">+ Ongeza Rafiki</button>
+</div>
+<div id="friendsList"></div>
+<div class="card">
+<div id="chatHeader" style="font-weight:bold;padding-bottom:8px;border-bottom:1px solid #2a3942;margin-bottom:8px;">💬 Chagua rafiki</div>
+<div id="chatArea" class="chatBox"><div style="text-align:center;color:#8696a0;padding:20px;">Chagua rafiki uanze kuchat 🤲</div></div>
+<div style="display:flex;gap:8px;margin-top:8px">
+<input id="msgInput" class="input" style="margin:0" placeholder="Andika ujumbe..." onkeypress="if(event.key==='Enter')sendMsg()">
+<button class="btn" style="width:80px" onclick="sendMsg()">Tuma</button>
+</div>
+</div>
+</div>
+
+<div id="status" class="page"><div class="card">Status ziko hapa - V7</div></div>
+<div id="videos" class="page"><div class="card">Videos ziko hapa - V7</div></div>
+<div id="mine" class="page"><div class="card">👑 JUMAJAY SUPER V7<br>App yako iko tayari!</div></div>
+
+<script>
+let friends = JSON.parse(localStorage.getItem('juma_friends')||'[{"name":"Juma"}]');
+let selectedFriend = null;
+
+function openTab(id,el){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+ el.classList.add('active');
+}
+
+function renderFriends(){
+ const list=document.getElementById('friendsList');
+ list.innerHTML=friends.map(f=>`
+  <div class="friend" onclick="openChat('${f.name}')">
+   <div class="ava">${f.name[0].toUpperCase()}</div>
+   <div style="flex:1"><div style="font-weight:bold">${f.name}</div><div class="small">Bonyeza kuchat 💬</div></div>
+   <div style="color:#25d366">●</div>
+  </div>
+ `).join('');
+}
+
+function addFriend(){
+ const inp=document.getElementById('newFriend');
+ const name=inp.value.trim();
+ if(!name)return alert('Andika jina mkuu!');
+ friends.push({name});
+ localStorage.setItem('juma_friends',JSON.stringify(friends));
+ inp.value='';
+ renderFriends();
+ alert(name+' ameongezwa mkuu! 👑');
+}
+
+function openChat(name){
+ selectedFriend=name;
+ document.getElementById('chatHeader').innerHTML=`💬 ${name} <span style="color:#25d366;font-size:12px">● online</span>`;
+ document.getElementById('chatArea').innerHTML=`<div style="text-align:center;color:#8696a0;padding:10px">Uko kwenye chat na ${name} 🤲<br>Andika Assalamu Alaikum</div>`;
+}
+
+function sendMsg(){
+ const input=document.getElementById('msgInput');
+ const original=input.value.trim();
+ const msg=original.toLowerCase();
+ if(!msg)return;
+ if(!selectedFriend)return alert('Chagua rafiki kwanza mkuu!');
+ const chatArea=document.getElementById('chatArea');
+ chatArea.innerHTML+=`<div class="bubble me">${original}</div>`;
+ let reply="";
+ if(msg.includes("aslam")||msg.includes("salam")||msg.includes("assalam")||msg.includes("walaikum")){
+   reply="Walaikum salam warahmatullahi wabarakatuh mkuu! 🤲 Alhamdulillah, karibu sana!";
+ }else if(msg.includes("habari")||msg.includes("mambo")||msg.includes("how are")||msg.includes("vipi")){
+   reply="Alhamdulillah niko poa sana mkuu! 🤲 Wewe vipi? Mungu akubariki!";
+ }else if(msg.includes("poa")||msg.includes("sawa")||msg.includes("freshi")){
+   reply="Poa sana mkuu! 🔥 Twende kazi, kazi sio ndogo baba!";
+ }else if(msg.includes("shukrani")||msg.includes("asante")||msg.includes("thanks")){
+   reply="Karibu sana mkuu! Shukrani kwa Allah 🤲";
+ }else if(msg.includes("inshallah")||msg.includes("mashallah")){
+   reply="Amin mkuu! 🤲 Allah akubariki sana!";
+ }else{
+   reply="Sawa mkuu, nimekuelewa! 👍 Karibu sana!";
+ }
+ setTimeout(()=>{
+  chatArea.innerHTML+=`<div class="bubble them">${reply}</div>`;
+  chatArea.scrollTop=chatArea.scrollHeight;
+ },600);
+ input.value="";
+ chatArea.scrollTop=chatArea.scrollHeight;
+}
+renderFriends();
+</script>
+</body>
+</html>
